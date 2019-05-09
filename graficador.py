@@ -1,4 +1,3 @@
-import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import imageio
@@ -7,20 +6,21 @@ Tiempo = np.array(range(201))*2/200
 X = np.array(range(101))/100
 Z = np.loadtxt('datos.txt')
 
-def plot_for_offset(tiempo):
+filenames =[]
+for tiempo in range(201):
+    plt.figure(figsize = (3,3))
+    plt.plot(X, Z[tiempo,:],)
+    plt.xlabel('Posicion [metros]')
+    plt.ylabel('U')
+    plt.title('Tiempo: {0:.2f} segundos'.format(Tiempo[tiempo]))
+    plt.grid()
+    plt.xlim(0, 1)
+    plt.ylim(-0.05, 0.05)
+    plt.savefig('tiempo'+str(tiempo)+'.png',bbox_inches = "tight")
+    filenames.append('tiempo'+str(tiempo)+'.png')
+    plt.close()
 
-    fig, ax = plt.subplots(figsize=(3,3))
-    ax.plot(X, Z[tiempo,:])
-    ax.grid()
-    ax.set(xlabel='Posicion [metros]', ylabel='U',
-           title='Tiempo: {} segundos'.format(Tiempo[tiempo]))
-    ax.set_xlim(0, 1)
-
-    fig.canvas.draw()
-    image = np.frombuffer(fig.canvas.tostring_rgb(), dtype='uint8')
-    image  = image.reshape(fig.canvas.get_width_height()[::-1] + (3,))
-
-    return image
-
-kwargs_write = {'fps':1.0, 'quantizer':'nq'}
-imageio.mimsave('Resultado.gif', [plot_for_offset(i) for i in range(201)], fps=10)
+images = []
+for filename in filenames:
+    images.append(imageio.imread(filename))
+imageio.mimsave('Resultado.gif', images)

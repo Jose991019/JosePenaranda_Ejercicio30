@@ -5,8 +5,8 @@
 #define _USE_MATH_DEFINES
 using namespace std;
 const float m = 100;
-const float beta = 0.8;
-const float c = 0.8;
+const float beta = 1;
+const float c = 1;
 const float dx = 1.0/m;
 const float dt = beta*dx/c;
 const float Tf = 2;
